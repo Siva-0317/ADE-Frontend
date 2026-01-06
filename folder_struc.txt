@@ -1,0 +1,35 @@
+agentic-automation-frontend/
+├── app/
+│   ├── layout.tsx
+│   ├── page.tsx
+│   ├── dashboard/
+│   │   └── page.tsx
+│   ├── create/
+│   │   └── page.tsx
+│   ├── automations/
+│   │   └── [id]/
+│   │       └── page.tsx
+│   └── api/
+│       └── auth/
+│           └── [...nextauth]/
+│               └── route.ts
+├── components/
+│   ├── Navbar.tsx
+│   ├── AutomationCard.tsx
+│   ├── WorkflowDesigner.tsx
+│   ├── CodeViewer.tsx
+│   └── ui/
+│       ├── button.tsx
+│       └── input.tsx
+├── lib/
+│   ├── api.ts
+│   ├── supabase.ts
+│   └── utils.ts
+├── types/
+│   └── index.ts
+├── public/
+├── package.json
+├── next.config.js
+├── tailwind.config.ts
+├── tsconfig.json
+└── .env.local.example
