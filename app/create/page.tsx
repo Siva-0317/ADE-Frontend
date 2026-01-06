@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { workflowsAPI, automationsAPI } from '@/lib/api';
 import { AutomationType, WorkflowDesign } from '@/types';
 import { Loader2, Download, Play } from 'lucide-react';
 import CodeViewer from '@/components/CodeViewer';
 
-export default function CreateAutomation() {
+// Separate component that uses useSearchParams
+function CreateAutomationContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [task, setTask] = useState(searchParams.get('task') || '');
@@ -15,7 +16,7 @@ export default function CreateAutomation() {
   const [loading, setLoading] = useState(false);
   const [workflow, setWorkflow] = useState<WorkflowDesign | null>(null);
   const [generatedCode, setGeneratedCode] = useState('');
-  const [step, setStep] = useState(1); // 1: Input, 2: Design, 3: Configure, 4: Code
+  const [step, setStep] = useState(1);
 
   const handleDesignWorkflow = async () => {
     setLoading(true);
@@ -170,6 +171,19 @@ export default function CreateAutomation() {
         )}
       </div>
     </div>
+  );
+}
+
+// Main component with Suspense wrapper
+export default function CreateAutomation() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center">
+        <Loader2 className="animate-spin" size={48} />
+      </div>
+    }>
+      <CreateAutomationContent />
+    </Suspense>
   );
 }
 
