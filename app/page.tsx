@@ -30,31 +30,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900">
-      {/* Navigation */}
-      <nav className="bg-gray-900/80 backdrop-blur-lg border-b border-gray-800 sticky top-0 z-50">
-        <div className="container mx-auto px-3 sm:px-4 py-3 sm:py-4">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="text-lg sm:text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent truncate">
-              Agentic Automation
-            </Link>
-            <div className="flex items-center gap-3 sm:gap-6">
-              <Link href="/" className="text-gray-300 hover:text-white transition-all hidden md:block text-sm sm:text-base">
-                Home
-              </Link>
-              <Link href="/how-it-works" className="text-gray-300 hover:text-white transition-all text-sm sm:text-base">
-                <span className="hidden sm:inline">How It Works</span>
-                <span className="sm:hidden">Help</span>
-              </Link>
-              <Link 
-                href="/create" 
-                className="bg-purple-600 hover:bg-purple-700 text-white px-3 sm:px-6 py-1.5 sm:py-2 rounded-lg transition-all font-semibold text-sm sm:text-base"
-              >
-                Create
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
 
       {/* Hero Section */}
       <div className="container mx-auto px-3 sm:px-4 pt-12 sm:pt-16 md:pt-20 pb-8 sm:pb-12 md:pb-16">
