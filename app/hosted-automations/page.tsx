@@ -18,7 +18,7 @@ interface HostedAutomation {
   id: number;
   automation_type: string;
   name: string;
-  config: any;
+  config: Record<string, any>;
   interval_minutes: number;
   is_active: boolean;
   last_run: string | null;
@@ -74,14 +74,14 @@ export default function HostedAutomationsPage() {
     }
   };
 
-  const formatInterval = (minutes: number) => {
+  const formatInterval = (minutes: number): string => {
     if (minutes < 60) return `Every ${minutes} minutes`;
     if (minutes === 60) return 'Every hour';
     if (minutes === 1440) return 'Daily';
     return `Every ${Math.floor(minutes / 60)} hours`;
   };
 
-  const formatLastRun = (lastRun: string | null) => {
+  const formatLastRun = (lastRun: string | null): string => {
     if (!lastRun) return 'Never';
     const date = new Date(lastRun);
     const now = new Date();
@@ -148,7 +148,7 @@ export default function HostedAutomationsPage() {
         {/* Create New Button */}
         <div className="mb-6">
           <button
-            onClick={() => router.push('/workflows?mode=hosted')}
+            onClick={() => router.push('/create?mode=hosted')}
             disabled={stats.total >= stats.limit}
             className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
           >
@@ -174,7 +174,7 @@ export default function HostedAutomationsPage() {
               Create your first cloud automation to get started
             </p>
             <button
-              onClick={() => router.push('/workflows?mode=hosted')}
+              onClick={() => router.push('/create?mode=hosted')}
               className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
             >
               Create Automation
@@ -253,13 +253,6 @@ export default function HostedAutomationsPage() {
                         Resume
                       </>
                     )}
-                  </button>
-                  
-                  <button
-                    onClick={() => router.push(`/hosted-automations/${automation.id}/history`)}
-                    className="flex-1 bg-blue-500/20 text-blue-300 px-4 py-2 rounded-lg font-semibold hover:bg-blue-500/30 transition-all"
-                  >
-                    View History
                   </button>
                   
                   <button
