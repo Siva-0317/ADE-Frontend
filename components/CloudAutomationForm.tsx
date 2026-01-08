@@ -10,7 +10,9 @@ import {
   Zap,
   Check,
   Loader2,
-  ArrowRight
+  ArrowRight,
+  HelpCircle,
+  Info
 } from 'lucide-react';
 
 interface CloudAutomationFormProps {
@@ -29,7 +31,7 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
     discord_webhook: '',
     email: '',
     css_selector: 'body',
-    interval_minutes: 60
+    interval_minutes: 10  // Changed default to 10 minutes
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,7 +68,6 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
 
       setSuccess(true);
       
-      // Redirect to hosted automations page after 2 seconds
       setTimeout(() => {
         router.push('/hosted-automations');
       }, 2000);
@@ -118,8 +119,14 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
 
       {/* Automation Name */}
       <div className="mb-6">
-        <label className="block text-gray-300 font-semibold mb-2">
+        <label className="block text-gray-300 font-semibold mb-2 flex items-center gap-2">
           Automation Name *
+          <div className="group relative">
+            <HelpCircle className="w-4 h-4 text-gray-500 cursor-help" />
+            <div className="invisible group-hover:visible absolute left-0 top-6 bg-gray-800 text-white text-xs rounded-lg p-3 w-64 z-10 shadow-xl">
+              Give your automation a memorable name so you can easily identify it in your dashboard
+            </div>
+          </div>
         </label>
         <input
           type="text"
@@ -136,33 +143,68 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
         <label className="block text-gray-300 font-semibold mb-2 flex items-center gap-2">
           <Globe className="w-4 h-4" />
           Website URL *
+          <div className="group relative">
+            <HelpCircle className="w-4 h-4 text-gray-500 cursor-help" />
+            <div className="invisible group-hover:visible absolute left-0 top-6 bg-gray-800 text-white text-xs rounded-lg p-3 w-72 z-10 shadow-xl">
+              <strong>What it does:</strong> The website you want to monitor for changes. Our system will visit this URL regularly and check if anything changed.
+              <br/><br/>
+              <strong>Examples:</strong><br/>
+              • Product page: Track price changes<br/>
+              • News site: Monitor new articles<br/>
+              • GitHub repo: Watch for updates
+            </div>
+          </div>
         </label>
         <input
           type="url"
           required
           value={formData.url}
           onChange={(e) => setFormData({...formData, url: e.target.value})}
-          placeholder="https://example.com"
+          placeholder="https://example.com/product"
           className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
         />
-        <p className="text-gray-500 text-xs mt-2">The website you want to monitor for changes</p>
+        <p className="text-gray-500 text-xs mt-2 flex items-center gap-1">
+          <Info className="w-3 h-3" />
+          The complete URL including https://
+        </p>
       </div>
 
-      {/* CSS Selector */}
+      {/* CSS Selector with enhanced help */}
       <div className="mb-6">
-        <label className="block text-gray-300 font-semibold mb-2">
+        <label className="block text-gray-300 font-semibold mb-2 flex items-center gap-2">
           CSS Selector (Optional)
+          <div className="group relative">
+            <HelpCircle className="w-4 h-4 text-gray-500 cursor-help" />
+            <div className="invisible group-hover:visible absolute left-0 top-6 bg-gray-800 text-white text-xs rounded-lg p-4 w-80 z-10 shadow-xl">
+              <strong>What it does:</strong> Tells the system which part of the webpage to monitor. Think of it as pointing to a specific section.
+              <br/><br/>
+              <strong>Common examples:</strong><br/>
+              • <code className="bg-gray-700 px-1 rounded">body</code> - Monitor entire page (default)<br/>
+              • <code className="bg-gray-700 px-1 rounded">.price</code> - Monitor price elements<br/>
+              • <code className="bg-gray-700 px-1 rounded">#product-title</code> - Monitor product name<br/>
+              • <code className="bg-gray-700 px-1 rounded">.stock-status</code> - Monitor availability<br/>
+              <br/>
+              <strong>How to find it:</strong><br/>
+              1. Right-click element on webpage<br/>
+              2. Click "Inspect"<br/>
+              3. Look for class="..." or id="..."
+            </div>
+          </div>
         </label>
         <input
           type="text"
           value={formData.css_selector}
           onChange={(e) => setFormData({...formData, css_selector: e.target.value})}
           placeholder="body"
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all"
+          className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all font-mono text-sm"
         />
-        <p className="text-gray-500 text-xs mt-2">
-          Leave as 'body' to monitor entire page, or specify element like '.price' or '#content'
-        </p>
+        <div className="mt-2 p-3 bg-blue-500/10 rounded-lg border border-blue-500/20">
+          <p className="text-blue-300 text-xs font-semibold mb-1">💡 Pro Tip:</p>
+          <p className="text-gray-400 text-xs">
+            Leave as <code className="bg-white/10 px-1 rounded">body</code> to monitor the entire page. 
+            Use specific selectors like <code className="bg-white/10 px-1 rounded">.price</code> to track only price changes and avoid false alerts.
+          </p>
+        </div>
       </div>
 
       {/* Check Interval */}
@@ -170,13 +212,26 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
         <label className="block text-gray-300 font-semibold mb-2 flex items-center gap-2">
           <Clock className="w-4 h-4" />
           Check Interval *
+          <div className="group relative">
+            <HelpCircle className="w-4 h-4 text-gray-500 cursor-help" />
+            <div className="invisible group-hover:visible absolute left-0 top-6 bg-gray-800 text-white text-xs rounded-lg p-3 w-72 z-10 shadow-xl">
+              <strong>What it does:</strong> How often our system checks the website for changes.
+              <br/><br/>
+              <strong>Choose based on:</strong><br/>
+              • Fast changes (prices, stocks): Every 10-30 min<br/>
+              • News/updates: Every hour<br/>
+              • Slow changes: Once daily<br/>
+              <br/>
+              ⚡ <strong>Demo mode:</strong> Actually checks every 10 seconds for quick testing!
+            </div>
+          </div>
         </label>
         <select
           value={formData.interval_minutes}
           onChange={(e) => setFormData({...formData, interval_minutes: parseInt(e.target.value)})}
           className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white focus:outline-none focus:border-purple-500 transition-all"
         >
-          <option value={10}>Every 10 minutes</option>
+          <option value={10}>Every 10 minutes (Demo: actually 10 sec)</option>
           <option value={30}>Every 30 minutes</option>
           <option value={60}>Every hour</option>
           <option value={180}>Every 3 hours</option>
@@ -184,7 +239,13 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
           <option value={720}>Every 12 hours</option>
           <option value={1440}>Once daily</option>
         </select>
-        <p className="text-gray-500 text-xs mt-2">How often to check for changes</p>
+        <div className="mt-2 p-3 bg-yellow-500/10 rounded-lg border border-yellow-500/20">
+          <p className="text-yellow-300 text-xs font-semibold mb-1">⚡ Demo Mode Active</p>
+          <p className="text-gray-400 text-xs">
+            For testing, automations run every <strong>10 seconds</strong> regardless of selected interval. 
+            You'll see changes detected very quickly!
+          </p>
+        </div>
       </div>
 
       {/* Notifications */}
@@ -192,13 +253,21 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
         <div className="flex items-center gap-2 mb-4">
           <Bell className="w-5 h-5 text-yellow-400" />
           <h3 className="text-white font-semibold">Notification Settings</h3>
+          <div className="group relative">
+            <HelpCircle className="w-4 h-4 text-gray-500 cursor-help" />
+            <div className="invisible group-hover:visible absolute left-0 top-6 bg-gray-800 text-white text-xs rounded-lg p-3 w-72 z-10 shadow-xl">
+              <strong>What it does:</strong> Choose where to receive instant alerts when changes are detected.
+              <br/><br/>
+              You need at least one notification method to know when something changed!
+            </div>
+          </div>
         </div>
         <p className="text-gray-400 text-sm mb-4">Get alerted when changes are detected (at least one required)</p>
         
         {/* Discord Webhook */}
         <div className="mb-4">
           <label className="block text-gray-300 text-sm font-semibold mb-2">
-            Discord Webhook URL
+            Discord Webhook URL ⚡ Recommended
           </label>
           <input
             type="url"
@@ -207,35 +276,46 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
             placeholder="https://discord.com/api/webhooks/..."
             className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all text-sm"
           />
+          <div className="mt-2 flex items-start gap-2 text-xs text-gray-400">
+            <Info className="w-4 h-4 mt-0.5 flex-shrink-0" />
+            <div>
+              <strong>How to get Discord webhook:</strong><br/>
+              1. Open Discord → Go to your server<br/>
+              2. Right-click a channel → Edit Channel<br/>
+              3. Integrations → Webhooks → New Webhook<br/>
+              4. Copy Webhook URL and paste above
+            </div>
+          </div>
           <a 
             href="https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks" 
             target="_blank"
-            className="text-blue-400 text-xs hover:underline mt-1 inline-block"
+            className="text-blue-400 text-xs hover:underline mt-2 inline-flex items-center gap-1"
           >
-            How to get Discord webhook? →
+            📖 Detailed guide with screenshots →
           </a>
         </div>
 
         {/* Email */}
         <div>
           <label className="block text-gray-300 text-sm font-semibold mb-2">
-            Email Address
+            Email Address 📧 Coming Soon
           </label>
           <input
             type="email"
+            disabled
             value={formData.email}
             onChange={(e) => setFormData({...formData, email: e.target.value})}
-            placeholder="your@email.com"
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all text-sm"
+            placeholder="your@email.com (coming soon)"
+            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-500 placeholder-gray-600 cursor-not-allowed text-sm opacity-50"
           />
-          <p className="text-gray-500 text-xs mt-2">Coming soon - Discord only for now</p>
+          <p className="text-gray-500 text-xs mt-2">Email notifications will be added soon. Use Discord for now!</p>
         </div>
       </div>
 
       {/* Submit Button */}
       <button
         type="submit"
-        disabled={loading || (!formData.discord_webhook && !formData.email)}
+        disabled={loading || !formData.discord_webhook}
         className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
         {loading ? (
@@ -252,20 +332,25 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
         )}
       </button>
 
-      {!formData.discord_webhook && !formData.email && (
-        <p className="text-yellow-400 text-sm text-center mt-3">
-          ⚠️ Please add at least one notification method
+      {!formData.discord_webhook && (
+        <p className="text-yellow-400 text-sm text-center mt-3 flex items-center justify-center gap-2">
+          <Bell className="w-4 h-4" />
+          Please add a Discord webhook to receive notifications
         </p>
       )}
 
       {/* Info Box */}
       <div className="mt-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
-        <h4 className="text-blue-300 font-semibold text-sm mb-2">✨ Free Tier Benefits</h4>
-        <ul className="text-gray-400 text-xs space-y-1">
-          <li>✓ Up to 3 cloud automations</li>
-          <li>✓ Runs 24/7 automatically</li>
-          <li>✓ No downloads or code needed</li>
-          <li>✓ Instant Discord notifications</li>
+        <h4 className="text-blue-300 font-semibold text-sm mb-2 flex items-center gap-2">
+          <Zap className="w-4 h-4" />
+          What happens next?
+        </h4>
+        <ul className="text-gray-400 text-xs space-y-1.5">
+          <li>✓ Your automation starts running immediately in our cloud</li>
+          <li>✓ We check the website every 10 seconds (demo mode)</li>
+          <li>✓ When changes detected → Instant Discord notification</li>
+          <li>✓ View all activity in your dashboard anytime</li>
+          <li>✓ Pause/resume/delete whenever you want</li>
         </ul>
       </div>
     </form>
