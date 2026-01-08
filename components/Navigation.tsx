@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Activity } from 'lucide-react';
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,6 +32,13 @@ export default function Navigation() {
               className="text-gray-300 hover:text-white transition-all"
             >
               How It Works
+            </Link>
+            <Link 
+              href="/hosted-automations" 
+              className="text-gray-300 hover:text-white transition-all flex items-center gap-2"
+            >
+              <Activity className="w-4 h-4" />
+              Cloud Automations
             </Link>
             <Link 
               href="/create" 
@@ -66,6 +73,14 @@ export default function Navigation() {
               onClick={() => setIsOpen(false)}
             >
               How It Works
+            </Link>
+            <Link 
+              href="/hosted-automations" 
+              className="block text-gray-300 hover:text-white transition-all py-2 flex items-center gap-2"
+              onClick={() => setIsOpen(false)}
+            >
+              <Activity className="w-4 h-4" />
+              Cloud Automations
             </Link>
             <Link 
               href="/create" 
