@@ -296,28 +296,28 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
         </div>
 
         {/* Email */}
-        <div>
-          <label className="block text-gray-300 text-sm font-semibold mb-2">
-            Email Address 📧 Coming Soon
-          </label>
-          <input
-            type="email"
-            disabled
-            value={formData.email}
-            onChange={(e) => setFormData({...formData, email: e.target.value})}
-            placeholder="your@email.com (coming soon)"
-            className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-gray-500 placeholder-gray-600 cursor-not-allowed text-sm opacity-50"
-          />
-          <p className="text-gray-500 text-xs mt-2">Email notifications will be added soon. Use Discord for now!</p>
+    <div>
+    <label className="block text-gray-300 text-sm font-semibold mb-2">
+        Email Address 📧
+    </label>
+    <input
+        type="email"
+        value={formData.email}
+        onChange={(e) => setFormData({...formData, email: e.target.value})}
+        placeholder="your@email.com"
+        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition-all text-sm"
+    />
+    <p className="text-gray-400 text-xs mt-2">Get email alerts when changes are detected</p>
+    </div>
         </div>
-      </div>
 
-      {/* Submit Button */}
+
       <button
-        type="submit"
-        disabled={loading || !formData.discord_webhook}
-        className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
-      >
+  type="submit"
+  disabled={loading || (!formData.discord_webhook && !formData.email)}
+  className="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-700 hover:to-blue-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+>
+
         {loading ? (
           <>
             <Loader2 className="w-5 h-5 animate-spin" />
@@ -332,12 +332,13 @@ export default function CloudAutomationForm({ automationType }: CloudAutomationF
         )}
       </button>
 
-      {!formData.discord_webhook && (
-        <p className="text-yellow-400 text-sm text-center mt-3 flex items-center justify-center gap-2">
-          <Bell className="w-4 h-4" />
-          Please add a Discord webhook to receive notifications
-        </p>
-      )}
+      {(!formData.discord_webhook && !formData.email) && (
+  <p className="text-yellow-400 text-sm text-center mt-3 flex items-center justify-center gap-2">
+    <Bell className="w-4 h-4" />
+    Please add Discord webhook or email to receive notifications
+  </p>
+)}
+
 
       {/* Info Box */}
       <div className="mt-6 p-4 bg-blue-500/10 rounded-lg border border-blue-500/20">
