@@ -1,11 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Download, Cloud, Code, Zap, ArrowRight } from 'lucide-react';
 import CloudAutomationForm from '@/components/CloudAutomationForm';
-import Link from 'next/link';
 
 export default function CreatePage() {
+  const router = useRouter();
   const [mode, setMode] = useState<'download' | 'cloud'>('cloud');
   const [automationType, setAutomationType] = useState('website_monitor');
 
@@ -131,7 +132,7 @@ export default function CreatePage() {
             <CloudAutomationForm automationType={automationType} />
           </>
         ) : (
-          /* Download Mode - Redirect to Home/Workflow Designer */
+          /* Download Mode */
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-12 border border-white/20 text-center">
             <Download className="w-16 h-16 text-purple-400 mx-auto mb-6" />
             <h3 className="text-3xl font-bold text-white mb-4">
@@ -143,31 +144,31 @@ export default function CreatePage() {
             
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-3xl mx-auto">
               <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                <div className="text-3xl mb-2">💬</div>
-                <h4 className="text-white font-semibold mb-1">1. Describe</h4>
+                <div className="text-4xl mb-3">💬</div>
+                <h4 className="text-white font-semibold mb-1 text-lg">1. Describe</h4>
                 <p className="text-gray-400 text-sm">Tell us what you want to automate</p>
               </div>
               
               <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                <div className="text-3xl mb-2">⚡</div>
-                <h4 className="text-white font-semibold mb-1">2. Generate</h4>
+                <div className="text-4xl mb-3">⚡</div>
+                <h4 className="text-white font-semibold mb-1 text-lg">2. Generate</h4>
                 <p className="text-gray-400 text-sm">AI creates your custom script</p>
               </div>
               
               <div className="bg-white/5 rounded-xl p-4 border border-white/10">
-                <div className="text-3xl mb-2">🚀</div>
-                <h4 className="text-white font-semibold mb-1">3. Download</h4>
+                <div className="text-4xl mb-3">🚀</div>
+                <h4 className="text-white font-semibold mb-1 text-lg">3. Download</h4>
                 <p className="text-gray-400 text-sm">Get ready-to-run Python code</p>
               </div>
             </div>
 
-            <Link
-              href="/"
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all"
+            <button
+              onClick={() => router.push('/')}
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all shadow-lg hover:shadow-xl"
             >
               Go to Workflow Designer
               <ArrowRight className="w-5 h-5" />
-            </Link>
+            </button>
 
             <p className="text-gray-500 text-sm mt-6">
               The workflow designer is on the homepage where you can describe your automation and download the script
